@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Notes | Todos</title>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>
+          What's up,
+          <span contenteditable="false" class="user"></span>
+          <img class="edit" src="images/pen-to-square-regular.svg" alt="" />
+        </h1>
+        <nav>
+          <a href="#notes" class="nav-item current">Notes</a>
+          <a href="#todos" class="nav-item">Todos</a>
+        </nav>
+      </header>
+      <div class="section-container">
+        <section class="slide" id="notes">
+          <button class="add-note-button">Add Note</button>
+          <div class="notes-container">
+            <div class="default-content">Notes is empty</div>
+          </div>
+          <div class="notes-input">
+            <div class="notes-input-inner">
+              <div class="x-container"><span class="close">&#215;</span></div>
+              <input
+                type="text"
+                name="title"
+                class="title-input"
+                placeholder="Title"
+              />
+              <textarea
+                rows="10"
+                class="note-content-input"
+                placeholder="Start typing"
+              ></textarea>
+
+              <div class="notes-btn-container">
+                <button class="cancel">Cancel</button>
+                <button class="delete">Delete</button>
+                <button class="save disabled">Save</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="slide" id="todos">
+          <div class="input-control">
+            <input type="text" class="todo-input" placeholder="Add Task" />
+            <button class="todo-button">Add</button>
+          </div>
+          <div class="todos-container">
+            <div class="default-content">Todos is empty</div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

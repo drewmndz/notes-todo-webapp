@@ -1,0 +1,284 @@
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    --gray: #d9d9d9;
+    --red: #c70000;
+}
+
+/* Reset */
+*, *::after, *::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+input,
+textarea,
+button,
+select,
+span,
+img,
+.note-container,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* General styling */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+main {
+    display: grid;
+    grid-template-rows: max-content;
+
+    max-width: 600px;
+    height: 100dvh;
+    margin-inline: auto;
+    padding-block: 2rem;
+    padding-inline: 1rem;
+}
+
+input, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    min-width: 0;
+    width: 100%;
+    resize: none;
+    background-color: transparent;
+
+    border: none;
+    outline: none;
+}
+
+h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+}
+
+.user {
+    position: relative;
+    outline: none;
+}
+
+.edit {
+    position: absolute;
+    margin-left: 0.5rem;
+    width: 14px;
+    cursor: pointer;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.nav-item {
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--black);
+    height: 2.5rem;
+}
+
+.current {
+    border-bottom: 4px solid var(--black);
+}
+
+.section-container {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.section-container::-webkit-scrollbar {
+    display: none;
+}
+
+button {
+    font-family: inherit;
+    font-size: inherit;
+
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--black);
+    color: var(--white);
+    padding: .4em;
+    cursor: pointer;
+}
+
+.slide {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: max-content;
+    height: 100%;
+    width: 100%;
+    flex: 1 0 100%;
+    scroll-snap-align: start;
+}
+
+.default-content {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    border: 2px dashed var(--gray);
+    color: var(--gray);
+    border-radius: 10px;
+}
+
+.has-content {
+    display: none;
+}
+
+.display-none {
+    display: none;
+}
+
+/* NOTES SECTION */
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.notes-container::-webkit-scrollbar {
+    display: none;
+}
+
+.notes-input {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, .5);
+    display: grid;
+    place-items: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: all ease .25s;
+}
+
+.x-container {
+    display: flex;
+    justify-content: end;
+    font-size: 2rem;
+    line-height: .3;
+    margin-right: -.4rem;
+}
+
+.close {
+    cursor: pointer;
+}
+
+.notes-input-inner {
+    background-color: var(--white);
+    width: 85%;
+    max-width: 25rem;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.note-container {
+    background-color: var(--gray);
+    padding: 1rem;
+    width: 100%;
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+.note-container:hover {
+    opacity: 0.9;
+}
+
+.title-input, .title {
+    font-size: 1.125rem;
+    font-weight: 600;
+
+    padding-bottom: .5rem;
+    margin-bottom: .5rem;
+    border-bottom: 2px solid var(--gray);
+}
+
+.title {
+    border-bottom: 2px solid var(--white);
+}
+
+.note-content-input, .note-content, .time {
+    font-size: 0.875rem;
+}
+
+.time {
+    margin-top: .6rem;
+    opacity: .7;
+    line-height: 1;
+}
+
+.notes-btn-container {
+    display: flex;
+    gap: .5rem;
+    justify-content: end;
+}
+
+.cancel, .save, .delete {
+    max-width: 5.5rem;
+    border-radius: 2.5rem;
+    font-size: 0.875rem;
+    transition: all 0.25s ease;
+}
+
+.delete {
+    color: var(--red);
+    background-color: var(--white);
+    border: 1px solid var(--red);
+}
+
+.cancel {
+    color: var(--black);
+    background-color: var(--white);
+    border: 1px solid var(--black);
+}
+
+.disabled {
+    color: var(--black);
+    background-color: var(--white);
+    border: 1px solid var(--black);
+}
+
+
+/* TODO SECTION */
+.input-control {
+    display: flex;
+    gap: 1rem;
+    background-color: var(--gray);
+    border-radius: 10px;
+}
+
+.todo-input {
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    padding-left: 1rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.todo-button {
+    flex: 0;
+    padding-inline: 1.5rem
+}
