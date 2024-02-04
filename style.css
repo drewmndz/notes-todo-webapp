@@ -19,6 +19,7 @@ select,
 span,
 img,
 .note-container,
+.separator,
 a {
     -webkit-tap-highlight-color: transparent;
 }
@@ -39,7 +40,7 @@ main {
     padding-inline: 1rem;
 }
 
-input, textarea {
+input[type=text], textarea {
     font-family: inherit;
     font-size: inherit;
     min-width: 0;
@@ -148,10 +149,6 @@ button {
     overflow-y: auto;
     scroll-behavior: smooth;
     scrollbar-width: none;
-}
-
-.notes-container::-webkit-scrollbar {
-    display: none;
 }
 
 .notes-input {
@@ -281,4 +278,91 @@ button {
 .todo-button {
     flex: 0;
     padding-inline: 1.5rem
+}
+
+.todos-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.todos-container .default-content {
+    margin-bottom: -1rem;
+}
+
+.unfinished-todos-container, .completed-todos-container {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.toggle {
+    display: none;
+}
+
+.edit-todo, .delete-todo{
+    width: 15px;
+    cursor: pointer;
+}
+
+.arrow {
+    width: 14px;
+    /* transform: scaleY(-1); */
+}
+
+.rotate {
+    transform: scaleY(-1);
+}
+
+.checkbox {
+    margin-right: 1rem;
+    min-width: 17px;
+    min-height: 17px;
+    accent-color: var(--black);
+    cursor: pointer;
+}
+
+.edit-todo {
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.todo-content {
+    margin-right: 1rem;
+    outline: none;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    background-color: var(--gray);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.finished-todo {
+    --gray: #a0a0a0;
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    background-color: var(--gray);
+    padding: 1rem;
+    border-radius: 10px;   
+}
+
+.finished {
+    text-decoration: line-through;
+}
+
+.separator {
+    font-size: 0.875rem;
+    margin-left: 0.5rem;
+    max-width: max-content;
+    cursor: pointer;
 }

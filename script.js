@@ -22,6 +22,18 @@ const dateContainer = document.querySelector('.time')
 const noteEntries = localStorage.getItem('noteEntries') ? JSON.parse(localStorage.getItem('noteEntries')) : []
 const previewIndex = {index: 0}
 
+
+// todos section variables
+const todoInput = document.querySelector('.todo-input')
+const todoButton = document.querySelector('.todo-button')
+const unfinishedTodosContainer = document.querySelector('.unfinished-todos-container')
+const separator = document.querySelector('.separator')
+const completedTodosContainer = document.querySelector('.completed-todos-container')
+const completedCounter = document.querySelector('.completed')
+const arrow = document.querySelector('.arrow')
+const currentTodos = localStorage.getItem('currentTodos') ? JSON.parse(localStorage.getItem('currentTodos')) : []
+const completedTodos = localStorage.getItem('completedTodos') ? JSON.parse(localStorage.getItem('completedTodos')) : []
+
 // to edit the user's name
 editUserBtn.addEventListener('click', () => {
     userName.setAttribute('contenteditable', 'true')
@@ -122,11 +134,7 @@ function displayNote() {
     let note = ''
     let time = ''
 
-    if(noteEntries.length !== 0) {
-        defaultContent[0].classList.add('has-content')
-    } else {
-        defaultContent[0].classList.remove('has-content')
-    }
+    noteEntries.length !== 0 ? defaultContent[0].classList.add('has-content') : defaultContent[0].classList.remove('has-content')
 
     refreshNotesContainer()
 
@@ -245,5 +253,200 @@ deleteBtn.addEventListener('click', () => {
     saveBtn.classList.remove('save-edit')
 })
 
+
+// TODOS SECTION FUNCTIONS
+function getElementIndexTodo(element) {
+    return [...element.parentNode.children].indexOf(element)
+}
+
+function refreshCurrentTodosContainer() {
+    unfinishedTodosContainer.replaceChildren()
+}
+
+function refreshCompletedTodosContainer() {
+    completedTodosContainer.replaceChildren()
+}
+
+function displayTodos() {
+    completedTodos.length !== 0 ? separator.classList.remove('display-none') : separator.classList.add('display-none')
+
+    if(currentTodos.length !== 0 || completedTodos.length !== 0) {
+        defaultContent[1].classList.add('has-content')
+        // unfinishedTodosContainer.classList.remove('toggle')
+        // completedTodosContainer.classList.remove('toggle')
+    } else {
+        defaultContent[1].classList.remove('has-content')
+        // unfinishedTodosContainer.classList.add('toggle')
+        // completedTodosContainer.classList.add('toggle')
+    }
+
+    refreshCurrentTodosContainer()
+    refreshCompletedTodosContainer()
+
+    completedCounter.innerText = completedTodos.length
+
+    currentTodos.forEach(currentTodo => {
+        const todoContainer = document.createElement('div')
+        todoContainer.classList.add('todo')
+
+        const checkBox = document.createElement('input')
+        checkBox.classList.add('checkbox')
+        checkBox.type = 'checkbox'
+
+        const todoContentContainer = document.createElement('p')
+        todoContentContainer.classList.add('todo-content')
+        todoContentContainer.innerText = currentTodo
+
+        const editIconContainer = document.createElement('img')
+        editIconContainer.classList.add('edit-todo')
+        editIconContainer.src = 'images/pen-to-square-regular.svg'
+
+        const deleteIconContainer = document.createElement('img')
+        deleteIconContainer.classList.add('delete-todo')
+        deleteIconContainer.src = 'images/trash-solid.svg'
+
+        todoContainer.append(checkBox, todoContentContainer, editIconContainer, deleteIconContainer)
+        unfinishedTodosContainer.append(todoContainer)
+    })
+
+    completedTodos.forEach(completedTodo => {
+        const todoContainer = document.createElement('div')
+        todoContainer.classList.add('finished-todo')
+
+        const checkBox = document.createElement('input')
+        checkBox.classList.add('checkbox')
+        checkBox.type = 'checkbox'
+        checkBox.checked = true
+
+        const todoContentContainer = document.createElement('p')
+        todoContentContainer.classList.add('todo-content')
+        todoContentContainer.classList.add('finished')
+        todoContentContainer.innerText = completedTodo
+
+        const editIconContainer = document.createElement('img')
+        editIconContainer.classList.add('edit-todo')
+        editIconContainer.src = 'images/pen-to-square-regular.svg'
+        editIconContainer.style.visibility = 'hidden'
+
+        const deleteIconContainer = document.createElement('img')
+        deleteIconContainer.classList.add('delete-todo')
+        deleteIconContainer.src = 'images/trash-solid.svg'
+
+        todoContainer.append(checkBox, todoContentContainer, editIconContainer, deleteIconContainer)
+        completedTodosContainer.append(todoContainer)
+
+        
+    })
+}
+
+function addTodo() {
+    let todo = todoInput.value
+
+    if(todo.trim()) {
+        currentTodos.push(todo.trim())
+        localStorage.setItem('currentTodos', JSON.stringify(currentTodos))
+        displayTodos()
+    }
+    
+    todoInput.value = ''
+    todoInput.focus()
+}
+
+function deleteCurrentTodo(index) {
+    currentTodos.splice(index, 1)
+    localStorage.setItem('currentTodos', JSON.stringify(currentTodos))
+    displayTodos()
+}
+
+function deleteCompletedTodo(index) {
+    completedTodos.splice(index, 1)
+    localStorage.setItem('completedTodos', JSON.stringify(completedTodos))
+    displayTodos()
+}
+
+function handleCheckedTodo(index) {
+    let spliced = currentTodos.splice(index, 1)
+    localStorage.setItem('currentTodos', JSON.stringify(currentTodos))
+    completedTodos.unshift(spliced[0])
+    localStorage.setItem('completedTodos', JSON.stringify(completedTodos))
+    displayTodos()
+}
+
+function handleUncheckedTodo(index) {
+    let spliced = completedTodos.splice(index, 1)
+    localStorage.setItem('completedTodos', JSON.stringify(completedTodos))
+    currentTodos.push(spliced[0])
+    localStorage.setItem('currentTodos', JSON.stringify(currentTodos))
+    displayTodos()
+}
+
+function editCurrentTodo(index) {
+    const todoContentContainers = document.querySelectorAll('.todo-content')
+    const targetTodo = todoContentContainers[index]
+    
+    targetTodo.setAttribute('contenteditable', 'true')
+    targetTodo.focus()
+    document.getSelection().modify("move", "forward", "lineboundary")
+
+    targetTodo.addEventListener('focusout', () => {
+        targetTodo.setAttribute('contenteditable', 'false')
+        // save edited todo
+        if(targetTodo.innerText.trim()) {
+            currentTodos[index] = targetTodo.innerText.trim()
+            localStorage.setItem('currentTodos', JSON.stringify(currentTodos))
+        } else {
+            deleteCurrentTodo(index)
+        }        
+    })
+
+    todoContentContainers[index].addEventListener('keydown', event => {
+        if(event.key === 'Enter') {
+            todoContentContainers[index].blur()
+        }
+    })
+}
+
+todoButton.addEventListener('click', addTodo)
+
+todoInput.addEventListener('keypress', event => {
+    if(event.key === 'Enter') {
+        addTodo()
+    }
+})
+
+unfinishedTodosContainer.addEventListener('click', event => {
+    let target = event.target
+    let index = getElementIndexTodo(target.parentElement)
+
+    if(target.classList.contains('delete-todo')) {
+        deleteCurrentTodo(index)
+    } else if(target.classList.contains('edit-todo')) {
+        editCurrentTodo(index)
+    } else if(target.classList.contains('checkbox')) {
+        setTimeout(() => {
+            handleCheckedTodo(index)
+        }, 200)
+    }
+})
+
+completedTodosContainer.addEventListener('click', event => {
+    let target = event.target
+    let index = getElementIndexTodo(target.parentElement)
+
+    if(target.classList.contains('delete-todo')) {
+        deleteCompletedTodo(index)
+    } else if(target.classList.contains('checkbox')) {
+        setTimeout(() => {
+            handleUncheckedTodo(index)
+        }, 200)
+    }
+})
+
+separator.addEventListener('click', () => {
+    completedTodosContainer.classList.toggle('toggle')
+    arrow.classList.toggle('rotate')
+})
+
 // onload
 displayNote()
+displayTodos()
