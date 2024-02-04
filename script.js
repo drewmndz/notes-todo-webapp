@@ -272,12 +272,8 @@ function displayTodos() {
 
     if(currentTodos.length !== 0 || completedTodos.length !== 0) {
         defaultContent[1].classList.add('has-content')
-        // unfinishedTodosContainer.classList.remove('toggle')
-        // completedTodosContainer.classList.remove('toggle')
     } else {
         defaultContent[1].classList.remove('has-content')
-        // unfinishedTodosContainer.classList.add('toggle')
-        // completedTodosContainer.classList.add('toggle')
     }
 
     refreshCurrentTodosContainer()
